@@ -1,0 +1,33 @@
+<languageVersion: 1.0;>
+
+kernel julia
+<   namespace : "";
+    vendor : "";
+    version : 1; >
+{
+    input image4 wave0;
+    output pixel4 result;
+     
+	parameter float2 scale
+    <
+        defaultValue:float2(0.0, 0.0);
+    >;   
+
+	parameter float2 c
+    <
+        defaultValue:float2(0.0, 0.0);
+    >;   
+
+    void
+    evaluatePixel()
+    {
+		float4 color = sampleNearest(wave0,outCoord());
+		float2 z = outCoord()*scale-float2(1.0,1.0);
+		float x = z.r*z.r-z.g*z.g+c.r;
+		float y = 2.0*z.r*z.g+c.g;
+		if ((x*x+y*y) > 4.0) {
+			color = float4(1,1,1,1);
+		}
+		result = color;
+    }
+}

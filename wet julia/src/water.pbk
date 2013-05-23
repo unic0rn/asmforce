@@ -1,0 +1,22 @@
+<languageVersion: 1.0;>
+
+kernel water
+<   namespace : "";
+    vendor : "";
+    version : 1; >
+{
+    input image4 wave1;
+    input image4 source;
+    output pixel4 result;
+    
+    void
+    evaluatePixel()
+    {
+		float4 wave = sampleLinear(wave1, outCoord()*0.5);
+		float wave2 = wave.r-0.5;
+		float displace = wave2*48.0;
+		float4 color = sampleLinear(source, outCoord()+float2(displace,displace));
+		color.rgb = color.rgb*(wave2*2.0+1.0);
+		result = color;
+    }
+}

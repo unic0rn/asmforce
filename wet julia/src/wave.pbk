@@ -1,0 +1,27 @@
+<languageVersion: 1.0;>
+
+kernel wave
+<   namespace : "";
+    vendor : "";
+    version : 1; >
+{
+    input image4 wave0;
+	input image4 wave1;
+    output pixel4 result;
+    
+    void
+    evaluatePixel()
+    {
+		float4 color = sampleNearest(wave0,outCoord()+float2(-1.0,0.0));
+		color += sampleNearest(wave0,outCoord()+float2(1.0,0.0));
+		color += sampleNearest(wave0,outCoord()+float2(0.0,1.0));
+		color += sampleNearest(wave0,outCoord()+float2(0.0,-1.0));
+		color = color/2.0-sampleNearest(wave1,outCoord());
+		color.rgb += (float3(0.5, 0.5, 0.5)-color.rgb)/128.0;
+		if ((color.r < 0.0) || (color.g < 0.0) || (color.b < 0.0)) {
+			color.rgb = float3(0.0, 0.0, 0.0);
+		}
+		color.a = 1.0;
+		result = color;
+    }
+}
