@@ -1,3 +1,5 @@
+# _[moved to upvar.fun/asmforce](https://upvar.fun/asmforce)_ #
+
 Asm Force
 =========
 
